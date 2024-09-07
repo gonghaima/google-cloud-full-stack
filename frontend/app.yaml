@@ -1,0 +1,11 @@
+runtime: nodejs18
+entrypoint: npm start
+
+handlers:
+  - url: /(.*\..+)$
+    static_files: dist/\1
+    upload: dist/(.*\..+)$
+  # Catch all handler to index.html
+  - url: /.*
+    static_files: dist/index.html
+    upload: dist/index.html

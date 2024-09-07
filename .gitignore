@@ -1,0 +1,33 @@
+# Node.js modules
+node_modules/
+
+# Build output directories (if applicable)
+client/build/
+backend/dist/
+
+# Various editor temporary files
+*.swp
+*.swo
+*.crt
+*.pem
+
+# Temporary npm cache (optional)
+.npm
+
+# IDE/Version control specific
+# Adjust for your tools
+.idea/
+.vscode/
+
+# OS specific temporary files
+.DS_Store
+
+# Testing frameworks (if applicable)
+coverage/
+
+# Logs
+*.log
+
+# Specific frontend build artifacts (if applicable)
+client/public/manifest.json
+client/public/favicon.ico

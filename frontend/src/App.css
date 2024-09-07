@@ -1,0 +1,67 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Center align the table container */
+.table-container {
+  display: flex;
+  justify-content: center; /* Horizontally center-aligns the table */
+  margin: 20px; /* Optional: add some space around the table */
+}
+
+/* Style the table */
+table {
+  border-collapse: collapse; /* Ensures borders between cells are merged */
+  width: 80%; /* Adjust width as needed */
+  max-width: 1000px; /* Optional: set a maximum width */
+}
+
+th,
+td {
+  border: 1px solid #ddd; /* Light border for table cells */
+  padding: 8px; /* Add padding for readability */
+  text-align: left; /* Align text to the left within cells */
+}
+
+th {
+  background-color: #3b0136; /* Light gray background for table headers */
+}
