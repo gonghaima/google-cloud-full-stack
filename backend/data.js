@@ -97,4 +97,4 @@ const transactions = [
 ];
 
 // Export the arrays
-module.exports = { users, transactions };
+export { users, transactions };

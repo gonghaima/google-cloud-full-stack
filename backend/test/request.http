@@ -1,0 +1,12 @@
+### GET All the users
+http://localhost:3000/
+
+
+
+# @baseUrl = localhost:7248
+# ### Do a login
+# POST {{baseUrl}}/users/Token
+# {
+#     "UserName": "admin",
+#     "Password": "12345"
+# }
