@@ -31,3 +31,5 @@ coverage/
 # Specific frontend build artifacts (if applicable)
 client/public/manifest.json
 client/public/favicon.ico
+backend/credentials/
+backend/.env
