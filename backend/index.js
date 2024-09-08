@@ -24,7 +24,7 @@ async function getUsers() {
 app.use(cors());
 
 // Define a route
-app.get('/', async (req, res) => {
+app.get('/users', async (req, res) => {
   try {
     const allUsers = await getUsers();
 
