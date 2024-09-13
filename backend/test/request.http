@@ -1,6 +1,51 @@
+# @baseUrl = http://localhost:3000
+@baseUrl = https://forumproject-backend.ts.r.appspot.com
 ### GET All the users
-http://localhost:3000/users
+{{baseUrl}}/users
 
+### GET user by ID
+{{baseUrl}}/users/s343543543530
+
+### CREATE a new user
+POST {{baseUrl}}/users/
+Content-Type: application/json
+
+{
+    "id": "s34988880",
+    "image_url": "https://example.com/new-image-1.jpg",
+    "user_name": "Curt1",
+    "password": "123456"
+}
+
+### LOGIN
+POST {{baseUrl}}/users/login
+Content-Type: application/json
+
+{
+    "id": "s34988880",
+    "password": "123456"
+}
+
+### UPDATE a user by ID
+PUT {{baseUrl}}/users/s343543543530
+Content-Type: application/json
+
+{
+  "password": "012345",
+  "user_name": "David1",
+  "image_url": "https://example.com/new-image.jpg"
+}
+
+### UPDATE a user password
+PUT {{baseUrl}}/users/s343543543530/password
+Content-Type: application/json
+
+{
+  "oldPassword": "0123456",
+  "newPassword": "012345",
+  "user_name": "David1",
+  "image_url": "https://example.com/new-image.jpg"
+}
 
 
 # @baseUrl = localhost:7248
