@@ -1,0 +1,35 @@
+@baseUrl = http://localhost:3000
+# @baseUrl = https://forumproject-backend.ts.r.appspot.com
+
+
+### GET message by id
+# {{baseUrl}}/messages/39834294
+{{baseUrl}}/messages/message123
+
+### GET message by user_id
+# {{baseUrl}}/messages/user/s343543543530
+{{baseUrl}}/messages/user/user456
+
+### CREATE a new message
+POST {{baseUrl}}/messages/
+Content-Type: application/json
+
+{
+  "content": "This is a sample message content about an interesting topic.",
+  "id": "message123",
+  "image_url": "https://example.com/images/sample.jpg",
+  "subject": "Sample Message Subject",
+  "user_id": "user456"
+}
+
+### UPDATE a new message
+PATCH {{baseUrl}}/messages/
+Content-Type: application/json
+
+{
+  "content": "This is a sample message content about an interesting topic.",
+  "id": "message123",
+  "image_url": "https://example.com/images/sample.jpg",
+  "subject": "Sample Message Subject",
+  "user_id": "user456"
+}

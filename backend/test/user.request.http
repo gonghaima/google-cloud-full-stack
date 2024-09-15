@@ -1,5 +1,5 @@
-# @baseUrl = http://localhost:3000
-@baseUrl = https://forumproject-backend.ts.r.appspot.com
+@baseUrl = http://localhost:3000
+# @baseUrl = https://forumproject-backend.ts.r.appspot.com
 ### GET All the users
 {{baseUrl}}/users
 
@@ -55,3 +55,9 @@ Content-Type: application/json
 #     "UserName": "admin",
 #     "Password": "12345"
 # }
+
+### GET message by id
+{{baseUrl}}/messages/39834294
+
+### GET message by user_id
+{{baseUrl}}/messages/user/s343543543530

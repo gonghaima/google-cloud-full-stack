@@ -18,7 +18,6 @@ async function getUsers() {
 
 // Function to get a user by ID
 export async function getUserById(userId) {
-  console.log('userId: ', userId);
   const userRef = firestore
     .collection('Users')
     // .where('user_name', '==', 'David0');
