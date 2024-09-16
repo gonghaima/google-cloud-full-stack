@@ -1,13 +1,53 @@
-import { Firestore } from '@google-cloud/firestore';
 import express from 'express';
+import { Firestore } from '@google-cloud/firestore';
+import { Storage } from '@google-cloud/storage';
+import multer from 'multer'; // Middleware to handle file uploads
 
 const router = express.Router();
 
-// Initialize Firestore with explicit credentials
-const firestore = new Firestore({
+const projectConfig = {
   projectId: 'forumproject-backend',
   keyFilename: 'credentials/forumproject-backend-8d3a9c76ffe0.json', // Path to the service account file
+};
+
+// Initialize Firestore with explicit credentials
+const firestore = new Firestore(projectConfig);
+
+const storage = new Storage(projectConfig);
+
+// Define your Google Cloud Storage bucket name
+const bucketName = 'forumapp_bucket';
+// Configure multer for file uploads
+const upload = multer({
+  storage: multer.memoryStorage(), // Store files in memory before uploading to Google Cloud
+  limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5MB
 });
+
+// Function to upload an image to Google Cloud Storage
+async function uploadImageToStorage(file) {
+  const bucket = storage.bucket(bucketName);
+  const blob = bucket.file(file.originalname);
+  const blobStream = blob.createWriteStream({
+    resumable: false,
+    contentType: file.mimetype,
+  });
+
+  return new Promise((resolve, reject) => {
+    blobStream
+      .on('finish', async () => {
+        // Make the file public
+        await blob.makePublic();
+
+        // Return the public URL
+        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+        resolve(publicUrl);
+      })
+      .on('error', (err) => {
+        reject(err);
+      })
+      .end(file.buffer); // Upload file buffer to Google Cloud Storage
+  });
+}
 
 async function getMessageById(messageId) {
   const messageRef = firestore
@@ -72,7 +112,7 @@ async function createMessage(messageData) {
   return { id: messageRef.id, ...newMessage.data() };
 }
 // create a new message
-router.post('/', async (req, res) => {
+router.post('/', upload.single('image'), async (req, res) => {
   const messageData = req.body;
 
   try {
@@ -80,6 +120,11 @@ router.post('/', async (req, res) => {
     if (!messageData.posted_date) {
       messageData.posted_date = new Date();
     }
+    // Upload image to Google Cloud Storage
+    const imageUrl = await uploadImageToStorage(req.file);
+
+    // Add image URL and current timestamp to the message data
+    messageData.image_url = imageUrl;
 
     const newMessage = await createMessage(messageData);
     res.status(201).send(newMessage);
