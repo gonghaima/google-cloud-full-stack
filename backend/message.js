@@ -135,7 +135,8 @@ router.post('/', upload.single('image'), async (req, res) => {
 });
 
 // Function to update a message by ID
-async function updateMessageById(messageId, updateData) {
+async function updateMessageById(messageId, updateData, file) {
+  // Query the document by message ID
   const messageRef = firestore
     .collection('Messages')
     .where('id', '==', messageId);
@@ -149,17 +150,29 @@ async function updateMessageById(messageId, updateData) {
   const doc = snapshot.docs[0];
   const docRef = doc.ref; // Get the document reference
 
+  // If a new image file is provided, upload it and update the image_url
+  if (file) {
+    const newImageUrl = await uploadImageToStorage(file);
+    updateData.image_url = newImageUrl;
+  }
+
+  // Perform the update operation with the new data
   await docRef.update(updateData);
   return { id: doc.id, ...updateData };
 }
 // update a new message
-router.patch('/', async (req, res) => {
+router.patch('/', upload.single('image'), async (req, res) => {
   const updateData = req.body;
+  const file = req.file;
   console.log('updateData: ', updateData);
 
   try {
     // Update the message in Firestore
-    const updatedMessage = await updateMessageById(updateData.id, updateData);
+    const updatedMessage = await updateMessageById(
+      updateData.id,
+      updateData,
+      file
+    );
     res.send(updatedMessage);
   } catch (error) {
     console.error(`Error updating message with ID ${updateData?.id}:`, error);
