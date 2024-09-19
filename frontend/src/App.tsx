@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import SignUpPage from './pages/SignUpPage';
 import HomePage from './pages/HomePage';
@@ -11,22 +12,36 @@ function App() {
   const loading = false;
   const data = { authUser: null };
 
+  const [authUser, setAuthUser] = useState(null);
+
   if (loading) return null;
   return (
     <>
-      {data?.authUser && <Header />}
+      {authUser && <Header />}
       <Routes>
         <Route
           path="/"
-          element={data.authUser ? <HomePage /> : <Navigate to="/login" />}
+          element={
+            authUser ? (
+              <HomePage setAuthUser={setAuthUser} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route
           path="/login"
-          element={!data.authUser ? <LoginPage /> : <Navigate to="/" />}
+          element={!authUser ? <LoginPage /> : <Navigate to="/" />}
         />
         <Route
           path="/signup"
-          element={!data.authUser ? <SignUpPage /> : <Navigate to="/" />}
+          element={
+            !authUser ? (
+              <SignUpPage setAuthUser={setAuthUser} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="*" element={<NotFound />} />

@@ -5,7 +5,8 @@ const Header = () => {
     <div className="container">
       <div className="heading">
         <h1>
-          <a href="/">Forum App</a>
+          {/* <a href="/">Forum App</a> */}
+          Forum App
         </h1>
       </div>
 
