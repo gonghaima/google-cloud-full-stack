@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function SignUpPage({ setAuthUser }: { setAuthUser: (user: any) => void }) {
   const [userID, setUserID] = useState('');
@@ -77,6 +78,9 @@ function SignUpPage({ setAuthUser }: { setAuthUser: (user: any) => void }) {
           Register
         </button>
       </form>
+      <p>
+        Already have an account? <Link to="/login">Login here</Link>
+      </p>
     </div>
   );
 }

@@ -47,7 +47,8 @@ input[type='password']::placeholder {
   color: #ccc; /* Placeholder color */
 }
 
-.register-btn {
+.register-btn,
+.login-btn {
   width: 100%;
   padding: 10px;
   background-color: #007bff;
@@ -58,7 +59,8 @@ input[type='password']::placeholder {
   font-size: 16px;
 }
 
-.register-btn:hover {
+.register-btn:hover,
+.login-btn:hover {
   background-color: #0056b3;
 }
 
