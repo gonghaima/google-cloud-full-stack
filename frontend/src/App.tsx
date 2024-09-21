@@ -10,7 +10,6 @@ import './App.css';
 
 function App() {
   const loading = false;
-  const data = { authUser: null };
 
   const [authUser, setAuthUser] = useState(null);
 

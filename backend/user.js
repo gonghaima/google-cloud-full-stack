@@ -1,14 +1,8 @@
 // user.js
-import { Firestore } from '@google-cloud/firestore';
 import express from 'express';
+import { firestore, upload, uploadImageToStorage } from './util/index.js';
 
 const router = express.Router();
-
-// Initialize Firestore with explicit credentials
-const firestore = new Firestore({
-  projectId: 'forumproject-backend',
-  keyFilename: 'credentials/forumproject-backend-8d3a9c76ffe0.json', // Path to the service account file
-});
 
 // Function to get all users from the Firestore 'Users' collection
 async function getUsers() {
@@ -175,9 +169,15 @@ router.put('/:id/password', async (req, res) => {
 });
 
 // Route to create a new user
-router.post('/', async (req, res) => {
+router.post('/', upload.single('image'), async (req, res) => {
   const userData = req.body;
   try {
+    if (req.file) {
+      const imageUrl = await uploadImageToStorage(req.file);
+      userData.image_url = imageUrl;
+    }
+
+    console.log("userData: ", userData);
     const newUser = await createUser(userData);
     res.status(201).send(newUser);
   } catch (error) {

@@ -4,7 +4,7 @@
 
 ### GET message by id
 # {{baseUrl}}/messages/39834294
-{{baseUrl}}/messages/message123
+{{baseUrl}}/messages/39834294
 
 ### GET message by user_id
 # {{baseUrl}}/messages/user/s343543543530
@@ -35,7 +35,7 @@ Content-Type: application/json
 #   "user_id": "user456"
 # }
 
-POST http://localhost:3000/messages
+POST {{baseUrl}}/messages
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 User-Agent: insomnia/9.3.3
 

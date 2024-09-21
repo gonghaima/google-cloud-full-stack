@@ -7,15 +7,38 @@
 {{baseUrl}}/users/s343543543530
 
 ### CREATE a new user
-POST {{baseUrl}}/users/
-Content-Type: application/json
+# POST {{baseUrl}}/users/
+# Content-Type: application/json
 
-{
-    "id": "s34988880",
-    "image_url": "https://example.com/new-image-1.jpg",
-    "user_name": "Curt1",
-    "password": "123456"
-}
+# {
+#     "id": "s34988880",
+#     "image_url": "https://example.com/new-image-1.jpg",
+#     "user_name": "Curt1",
+#     "password": "123456"
+# }
+### CREATE a new user
+POST {{baseUrl}}/users/
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+User-Agent: insomnia/9.3.3
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="id"
+
+a4565461qq
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="user_name"
+
+Cristina
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="password"
+
+12345
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="mapFilterReduce.jpg"
+Content-Type: image/jpeg
+
+< /Users/stevengong/Documents/mapFilterReduce.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ### LOGIN
 POST {{baseUrl}}/users/login

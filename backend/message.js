@@ -1,53 +1,7 @@
 import express from 'express';
-import { Firestore } from '@google-cloud/firestore';
-import { Storage } from '@google-cloud/storage';
-import multer from 'multer'; // Middleware to handle file uploads
+import { firestore, upload, uploadImageToStorage } from './util/index.js';
 
 const router = express.Router();
-
-const projectConfig = {
-  projectId: 'forumproject-backend',
-  keyFilename: 'credentials/forumproject-backend-8d3a9c76ffe0.json', // Path to the service account file
-};
-
-// Initialize Firestore with explicit credentials
-const firestore = new Firestore(projectConfig);
-
-const storage = new Storage(projectConfig);
-
-// Define your Google Cloud Storage bucket name
-const bucketName = 'forumapp_bucket';
-// Configure multer for file uploads
-const upload = multer({
-  storage: multer.memoryStorage(), // Store files in memory before uploading to Google Cloud
-  limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5MB
-});
-
-// Function to upload an image to Google Cloud Storage
-async function uploadImageToStorage(file) {
-  const bucket = storage.bucket(bucketName);
-  const blob = bucket.file(file.originalname);
-  const blobStream = blob.createWriteStream({
-    resumable: false,
-    contentType: file.mimetype,
-  });
-
-  return new Promise((resolve, reject) => {
-    blobStream
-      .on('finish', async () => {
-        // Make the file public
-        await blob.makePublic();
-
-        // Return the public URL
-        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
-        resolve(publicUrl);
-      })
-      .on('error', (err) => {
-        reject(err);
-      })
-      .end(file.buffer); // Upload file buffer to Google Cloud Storage
-  });
-}
 
 async function getMessageById(messageId) {
   const messageRef = firestore

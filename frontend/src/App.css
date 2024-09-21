@@ -9,7 +9,7 @@ body {
   margin: 0;
 }
 
-.registration-container {
+.registration-container, .login-container {
   background-color: #2e2e2e; /* Dark container background */
   padding: 20px;
   border-radius: 8px;

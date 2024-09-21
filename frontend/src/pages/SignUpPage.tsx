@@ -1,32 +1,49 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { CONSTANT } from '../constant';
 
 function SignUpPage({ setAuthUser }: { setAuthUser: (user: any) => void }) {
   const [userID, setUserID] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [userImage, setUserImage] = useState(null);
+  const [userImage, setUserImage] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Simulated stored user information for validation
-  const storedUserInfo = {
-    userID: '12345',
-    username: 'johnDoe',
-  };
+  const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Validate if the entered ID and username match the stored information
-    if (
-      userID === storedUserInfo.userID &&
-      username === storedUserInfo.username
-    ) {
-      alert('Registration successful!');
-      // Set authenticated user
-      setAuthUser({ userID, username, userImage });
-    } else {
-      setErrorMessage('ID or Username is incorrect. Please try again.');
+    // Ensure that the image is selected before making the request
+    if (!userImage) {
+      setErrorMessage('Please upload a user image.');
+      return;
+    }
+
+    try {
+      // Create FormData to send multipart/form-data
+      const formData = new FormData();
+      formData.append('id', userID);
+      formData.append('user_name', username);
+      formData.append('password', password);
+      formData.append('image', userImage); // Add user image to form data
+
+      // Use CONSTANT.baseUrl_local for local development
+      const response = await fetch(`${CONSTANT.baseUrl_local}/users`, {
+        method: 'POST',
+        body: formData, // Send formData directly
+      });
+      if (response.ok) {
+        const data = await response.json();
+        // Set the authenticated user
+        setAuthUser(data); // Assuming your API returns user data
+        navigate('/'); // Redirect to home page
+      } else {
+        setErrorMessage('Registration failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      setErrorMessage('Something went wrong. Please try again.');
     }
   };
 
