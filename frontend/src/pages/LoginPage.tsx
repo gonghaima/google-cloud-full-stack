@@ -13,12 +13,12 @@ function LoginPage({ setAuthUser }: { setAuthUser: (user: any) => void }) {
 
     try {
       // use CONSTANT.baseUrl_local for local development
-      const response = await fetch(`${CONSTANT.baseUrl}/users/login`, {
+      const response = await fetch(`${CONSTANT.baseUrl_local}/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id: userID, password }),
+        body: JSON.stringify({ user_id: userID, password }),
       });
 
       if (response.ok) {

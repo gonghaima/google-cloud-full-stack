@@ -1,10 +1,13 @@
 import React from 'react';
+import { USER } from '../types';
 
-type Props = object;
+interface AdminPageProps {
+  authUser: USER | null;
+}
 
-// eslint-disable-next-line no-empty-pattern
-function AdminPage({}: Props) {
-  return <div>AdminPage</div>;
+function AdminPage({ authUser }: AdminPageProps) {
+  console.log('authUser: ', authUser);
+  return <div className="content-container">AdminPage</div>;
 }
 
 export default AdminPage;

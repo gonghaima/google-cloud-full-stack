@@ -12,10 +12,11 @@ async function getUsers() {
 
 // Function to get a user by ID
 export async function getUserById(userId) {
+  console.log('userId: ', userId);
   const userRef = firestore
     .collection('Users')
     // .where('user_name', '==', 'David0');
-    .where('id', '==', userId);
+    .where('user_id', '==', userId);
   const snapshot = await userRef.get();
 
   // Check if the snapshot is empty
@@ -84,7 +85,7 @@ async function createUser(userData) {
 // Function to handle user login
 async function loginUser(userId, password) {
   // Query the document by user ID
-  const userRef = firestore.collection('Users').where('id', '==', userId);
+  const userRef = firestore.collection('Users').where('user_id', '==', userId);
   const snapshot = await userRef.get();
 
   // Check if any documents were found
@@ -104,8 +105,7 @@ async function loginUser(userId, password) {
   // Return the user data (excluding sensitive information like password)
   return {
     id: doc.id,
-    user_name: userData.user_name,
-    image_url: userData.image_url,
+    ...userData,
   };
 }
 
@@ -125,10 +125,10 @@ router.get('/', async (req, res) => {
 });
 
 // Route to get a user by ID
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
+router.get('/:user_id', async (req, res) => {
+  const { user_id } = req.params;
   try {
-    const user = await getUserById(id);
+    const user = await getUserById(user_id);
     res.send(user);
   } catch (error) {
     console.error(`Error fetching user with ID ${id}:`, error);
@@ -177,7 +177,7 @@ router.post('/', upload.single('image'), async (req, res) => {
       userData.image_url = imageUrl;
     }
 
-    console.log("userData: ", userData);
+    console.log('userData: ', userData);
     const newUser = await createUser(userData);
     res.status(201).send(newUser);
   } catch (error) {
@@ -188,9 +188,10 @@ router.post('/', upload.single('image'), async (req, res) => {
 
 // Route to handle user login
 router.post('/login', async (req, res) => {
-  const { id, password } = req.body;
+  const { user_id, password } = req.body;
+  console.log('user_id: ', user_id);
   try {
-    const user = await loginUser(id, password);
+    const user = await loginUser(user_id, password);
     res.status(200).send({ message: 'Login successful', user });
   } catch (error) {
     console.error('Error during login:', error);

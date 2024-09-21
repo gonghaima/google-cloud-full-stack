@@ -69,3 +69,80 @@ input[type='password']::placeholder {
   font-size: 14px;
   margin-bottom: 10px;
 }
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #2e2e2e; /* Dark background for the header */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  width: auto;
+  color: #f4f4f4;
+}
+
+.heading h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.heading a {
+  text-decoration: none;
+  color: #f4f4f4;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  text-decoration: none;
+  color: #f4f4f4;
+}
+
+.profile-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.profile-placeholder {
+  width: 40px;
+  height: 40px;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+.username {
+  font-size: 16px;
+}
+
+.logout-btn {
+  background-color: #d9534f; /* Bootstrap-like danger color */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.logout-btn:hover {
+  background-color: #c9302c;
+}
+
+.content-container{
+  padding: 0 10%;
+}
