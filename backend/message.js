@@ -90,19 +90,28 @@ router.post('/', upload.single('image'), async (req, res) => {
 
 // Function to update a message by ID
 async function updateMessageById(messageId, updateData, file) {
-  // Query the document by message ID
-  const messageRef = firestore
-    .collection('Messages')
-    .where('id', '==', messageId);
-  const snapshot = await messageRef.get();
+  let messageRef;
+  let snapshot;
 
-  // Check if the snapshot is empty
-  if (snapshot.empty) {
-    throw new Error('Message not found');
+  // First, attempt to retrieve the document by its ID
+  messageRef = firestore.collection('Messages').doc(messageId);
+  snapshot = await messageRef.get();
+
+  // If the document doesn't exist, fall back to querying by 'id' field
+  if (!snapshot.exists) {
+    const messageQueryRef = firestore
+      .collection('Messages')
+      .where('id', '==', messageId);
+    const querySnapshot = await messageQueryRef.get();
+
+    if (querySnapshot.empty) {
+      throw new Error('Message not found');
+    }
+
+    // Use the first matching document from the query
+    const doc = querySnapshot.docs[0];
+    messageRef = doc.ref; // Get the document reference
   }
-
-  const doc = snapshot.docs[0];
-  const docRef = doc.ref; // Get the document reference
 
   // If a new image file is provided, upload it and update the image_url
   if (file) {
@@ -111,9 +120,11 @@ async function updateMessageById(messageId, updateData, file) {
   }
 
   // Perform the update operation with the new data
-  await docRef.update(updateData);
-  return { id: doc.id, ...updateData };
+  await messageRef.update(updateData);
+
+  return { id: messageId, updateData };
 }
+
 // update a new message
 router.patch('/', upload.single('image'), async (req, res) => {
   const updateData = req.body;
@@ -124,7 +135,7 @@ router.patch('/', upload.single('image'), async (req, res) => {
     // Update the message in Firestore
     const updatedMessage = await updateMessageById(
       updateData.id,
-      updateData,
+      { ...updateData, posted_date: new Date() },
       file
     );
     res.send(updatedMessage);

@@ -48,12 +48,18 @@ textarea {
   border-radius: 4px;
 }
 
+textarea {
+  min-height: 100px;
+}
+
 input[type='text']::placeholder,
 input[type='password']::placeholder {
   color: #ccc; /* Placeholder color */
 }
 
 .register-btn,
+.edit-btn,
+.submit-btn,
 .login-btn {
   width: 100%;
   padding: 10px;
@@ -63,6 +69,13 @@ input[type='password']::placeholder {
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+}
+.submit-btn {
+  width: 20%;
+}
+.edit-btn {
+  display: block;
+  width: 280px;
 }
 
 .register-btn:hover,
@@ -80,7 +93,7 @@ input[type='password']::placeholder {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 21px 27px;
   background-color: #2e2e2e; /* Dark background for the header */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
   width: auto;
@@ -151,4 +164,19 @@ input[type='password']::placeholder {
 
 .content-container {
   padding: 0 10%;
+  background-color: #1a1a1a;
+}
+
+.block-container {
+  display: block !important;
+  margin-top: 20px !important;
+  padding-top: 15px !important;
+}
+.left-space {
+  margin-left: 10px;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

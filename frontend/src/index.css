@@ -14,6 +14,7 @@
 }
 #root {
   height: 100vh;
+  width: 100vw;
 }
 
 a {
@@ -30,7 +31,7 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100;
 }
 
 h1 {
@@ -68,4 +69,24 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.message {
+  border-bottom: 10px solid #242424;
+  background-color: #242424;
+  padding: 5px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.flex-container {
+  /* display: flex; */
+  padding: 13px;
+}
+img {
+  height: auto;
+  top: 1%;
+  left: 5%;
+  transform: translate(-5%, 15%);
 }

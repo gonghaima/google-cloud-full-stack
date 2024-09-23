@@ -11,13 +11,13 @@ import './App.css';
 function App() {
   const loading = false;
 
-  // const [authUser, setAuthUser] = useState(null);
-  const [authUser, setAuthUser] = useState({
-    id: 'synukjPXGvPxmwp6sNpr',
-    user_name: 'Steven',
-    user_id: 's343543543530',
-    image_url: 'https://avatars.githubusercontent.com/u/5950307?s=48&v=4',
-  });
+  const [authUser, setAuthUser] = useState(null);
+  // const [authUser, setAuthUser] = useState({
+  //   id: 'synukjPXGvPxmwp6sNpr',
+  //   user_name: 'Steven',
+  //   user_id: 's343543543530',
+  //   image_url: 'https://avatars.githubusercontent.com/u/5950307?s=48&v=4',
+  // });
 
   const navigate = useNavigate();
   const onLogout = () => {
@@ -60,7 +60,16 @@ function App() {
             )
           }
         />
-        <Route path="/admin" element={<AdminPage authUser={authUser}/>} />
+        <Route
+          path="/admin"
+          element={
+            authUser ? (
+              <AdminPage authUser={authUser} setAuthUser={setAuthUser} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

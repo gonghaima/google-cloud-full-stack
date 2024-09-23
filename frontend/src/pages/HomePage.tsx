@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { CONSTANT } from '../constant';
 
 const formatDate = (postedDate: { _seconds: number; _nanoseconds: number }) => {
@@ -43,8 +43,6 @@ function HomePage({
     if (messageImage) {
       formData.append('image', messageImage);
     }
-    // debugger;
-    // return;
 
     try {
       const response = await fetch(`${CONSTANT.baseUrl_local}/messages`, {
@@ -85,14 +83,16 @@ function HomePage({
 
   return (
     <div className="content-container">
-      <h1>Welcome to the forum!</h1>
-      {authUser && (
-        <div>
-          <Link to={`/admin`}>
-            <h2>Admin</h2>
-          </Link>
-        </div>
-      )}
+      <nav>
+        <h1>Welcome to the forum!</h1>
+        {authUser && (
+          <div>
+            <Link to={`/admin`}>
+              <h2>Admin</h2>
+            </Link>
+          </div>
+        )}
+      </nav>
 
       {/* Message Posting Area */}
       <div>
@@ -129,7 +129,9 @@ function HomePage({
             onChange={(e) => setMessageImage(e.target.files?.[0] || null)}
           />
 
-          <button type="submit">Submit</button>
+          <button className="submit-btn" type="submit">
+            Submit
+          </button>
         </form>
       </div>
 
@@ -137,20 +139,25 @@ function HomePage({
       <div>
         <h2>Recent Messages</h2>
         {recentMessages.map((msg) => (
-          <div key={msg.id} className="message">
-            <p>
-              <strong>Subject:</strong> {msg.subject}
-            </p>
-            <p>
-              <strong>Message:</strong> {msg.content}
-            </p>
-            <p>
-              <strong>Posted at:</strong> {formatDate(msg.posted_date)}
-            </p>
-            {msg.image_url && (
-              <img src={msg.image_url} alt="Message" width="120" />
-            )}
-          </div>
+          <article key={msg.id} className="message">
+            <div className="flex-container">
+              {' '}
+              {msg.image_url && (
+                <img src={msg.image_url} alt="Message" width="120" />
+              )}
+            </div>
+            <div>
+              <p>
+                <strong>Subject:</strong> {msg.subject}
+              </p>
+              <p>
+                <strong>Message:</strong> {msg.content}
+              </p>
+              <p>
+                <strong>Posted at:</strong> {formatDate(msg.posted_date)}
+              </p>
+            </div>
+          </article>
         ))}
       </div>
     </div>

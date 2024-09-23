@@ -32,7 +32,7 @@ export async function getUserById(userId) {
 // Function to update a user by ID
 async function updateUserById(userId, updateData) {
   // Query the document by ID
-  const userRef = firestore.collection('Users').where('id', '==', userId);
+  const userRef = firestore.collection('Users').where('user_id', '==', userId);
   const snapshot = await userRef.get();
 
   if (snapshot.empty) {
@@ -50,7 +50,7 @@ async function updateUserById(userId, updateData) {
 // Function to update a user password by ID
 async function updateUserPassword(userId, oldPassword, newPassword) {
   // Query the document by user ID
-  const userRef = firestore.collection('Users').where('id', '==', userId);
+  const userRef = firestore.collection('Users').where('user_id', '==', userId);
   const snapshot = await userRef.get();
 
   // Check if any documents were found
