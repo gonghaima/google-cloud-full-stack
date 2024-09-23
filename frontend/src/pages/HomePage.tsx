@@ -2,6 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { CONSTANT } from '../constant';
 
+const formatDate = (postedDate: { _seconds: number; _nanoseconds: number }) => {
+  const date = new Date(
+    postedDate._seconds * 1000 + postedDate._nanoseconds / 1000000
+  );
+  return date.toLocaleString(); // Formats the date and time based on locale
+};
+
+const sortedMessages = (messages: any) =>
+  [...messages].sort((a, b) => {
+    const dateA =
+      a.posted_date._seconds * 1000 + a.posted_date._nanoseconds / 1000000;
+    const dateB =
+      b.posted_date._seconds * 1000 + b.posted_date._nanoseconds / 1000000;
+    return dateB - dateA;
+  });
+
 function HomePage({
   authUser,
   setAuthUser,
@@ -9,31 +25,26 @@ function HomePage({
   authUser: any;
   setAuthUser: (user: any) => void;
 }) {
-  const navigate = useNavigate();
-
   const [subject, setSubject] = useState('');
-  const [messageText, setMessageText] = useState('');
+  const [message, setMessage] = useState('');
   const [messageImage, setMessageImage] = useState<File | null>(null);
   const [recentMessages, setRecentMessages] = useState<any[]>([]); // For storing recent messages
 
-  const handleLogout = () => {
-    setAuthUser(null); // Reset the authenticated user to null
-    navigate('/login'); // Redirect to the login page
-  };
-
   const handleSubmitMessage = async () => {
-    if (!subject || !messageText) {
+    if (!subject || !message) {
       alert('Subject and Message Text are required.');
       return;
     }
 
     const formData = new FormData();
     formData.append('subject', subject);
-    formData.append('messageText', messageText);
-    formData.append('user_id', authUser.id); // Assuming authUser has an ID field
+    formData.append('content', message);
+    formData.append('user_id', authUser.user_id); // Assuming authUser has an ID field
     if (messageImage) {
       formData.append('image', messageImage);
     }
+    // debugger;
+    // return;
 
     try {
       const response = await fetch(`${CONSTANT.baseUrl_local}/messages`, {
@@ -45,7 +56,7 @@ function HomePage({
         const newMessage = await response.json();
         setRecentMessages([newMessage, ...recentMessages].slice(0, 10)); // Update recent messages
         setSubject('');
-        setMessageText('');
+        setMessage('');
         setMessageImage(null);
       } else {
         console.error('Failed to post message');
@@ -63,7 +74,7 @@ function HomePage({
         );
         if (response.ok) {
           const data = await response.json();
-          setRecentMessages(data); // Assuming API returns recent messages
+          setRecentMessages(sortedMessages(data)); // Assuming API returns recent messages
         }
       } catch (error) {
         console.error('Error fetching recent messages:', error);
@@ -102,11 +113,11 @@ function HomePage({
             required
           />
 
-          <label htmlFor="messageText">Message Text:</label>
+          <label htmlFor="message">Message Text:</label>
           <textarea
-            id="messageText"
-            value={messageText}
-            onChange={(e) => setMessageText(e.target.value)}
+            id="message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
             placeholder="Enter your message"
             required
           />
@@ -133,12 +144,8 @@ function HomePage({
             <p>
               <strong>Message:</strong> {msg.content}
             </p>
-            {/* <p>
-              <strong>Posted by:</strong> {msg.username}
-            </p> */}
             <p>
-              <strong>Posted at:</strong>{' '}
-              {new Date(msg.posted_date).toLocaleString()}
+              <strong>Posted at:</strong> {formatDate(msg.posted_date)}
             </p>
             {msg.image_url && (
               <img src={msg.image_url} alt="Message" width="120" />

@@ -9,13 +9,18 @@ body {
   margin: 0;
 }
 
-.registration-container, .login-container {
+.registration-container,
+.login-container {
   background-color: #2e2e2e; /* Dark container background */
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Lighter shadow */
   max-width: 400px;
   width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .title {
@@ -32,7 +37,8 @@ label {
 
 input[type='text'],
 input[type='password'],
-input[type='file'] {
+input[type='file'],
+textarea {
   width: 94%;
   padding: 10px;
   margin-bottom: 15px;
@@ -143,6 +149,6 @@ input[type='password']::placeholder {
   background-color: #c9302c;
 }
 
-.content-container{
+.content-container {
   padding: 0 10%;
 }
