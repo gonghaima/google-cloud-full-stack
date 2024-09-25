@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { USER } from '../types';
-import { CONSTANT } from '../constant';
+import { Message, User } from '../types';
+import { CONSTANT, sortedMessages } from '../lib';
 
 interface AdminPageProps {
-  authUser: USER | null;
-  setAuthUser: (user: USER | null) => void;
+  authUser: User | null;
+  setAuthUser: (user: User | null) => void;
 }
 
 function AdminPage({ authUser, setAuthUser }: AdminPageProps) {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
   const [updatedSubject, setUpdatedSubject] = useState('');
   const [updatedContent, setUpdatedContent] = useState('');
@@ -51,13 +51,12 @@ function AdminPage({ authUser, setAuthUser }: AdminPageProps) {
         }
       );
 
-      const result = await response.json();
+      await response.json();
 
       if (response.ok) {
         setAuthUser(null);
         navigate('/login'); // Redirect to login page on successful password change
       } else {
-        // setPasswordError(result.message || 'The old password is incorrect.');
         setPasswordError('The old password is incorrect.');
       }
     } catch (error) {
@@ -140,7 +139,7 @@ function AdminPage({ authUser, setAuthUser }: AdminPageProps) {
 
       <div>
         <h2>View/Update Messages</h2>
-        {messages.map((message) => (
+        {sortedMessages(messages).map((message) => (
           <div key={message.id}>
             {editingMessageId === message.id ? (
               <div className="message block-container">

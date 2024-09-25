@@ -1,34 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CONSTANT } from '../constant';
+import { CONSTANT, formatDate, sortedMessages } from '../lib';
+import { Message, User } from '../types';
 
-const formatDate = (postedDate: { _seconds: number; _nanoseconds: number }) => {
-  const date = new Date(
-    postedDate._seconds * 1000 + postedDate._nanoseconds / 1000000
-  );
-  return date.toLocaleString(); // Formats the date and time based on locale
-};
-
-const sortedMessages = (messages: any) =>
-  [...messages].sort((a, b) => {
-    const dateA =
-      a.posted_date._seconds * 1000 + a.posted_date._nanoseconds / 1000000;
-    const dateB =
-      b.posted_date._seconds * 1000 + b.posted_date._nanoseconds / 1000000;
-    return dateB - dateA;
-  });
-
-function HomePage({
-  authUser,
-  setAuthUser,
-}: {
-  authUser: any;
-  setAuthUser: (user: any) => void;
-}) {
+function HomePage({ authUser }: { authUser: User }) {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [messageImage, setMessageImage] = useState<File | null>(null);
-  const [recentMessages, setRecentMessages] = useState<any[]>([]); // For storing recent messages
+  const [recentMessages, setRecentMessages] = useState<Message[]>([]); // For storing recent messages
 
   const handleSubmitMessage = async () => {
     if (!subject || !message) {

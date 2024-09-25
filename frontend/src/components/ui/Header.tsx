@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { USER } from '../../types';
+import { User } from '../../types';
 
 interface HeaderProps {
-  authUser: USER | null;
+  authUser: User | null;
   onLogout: () => void;
 }
 

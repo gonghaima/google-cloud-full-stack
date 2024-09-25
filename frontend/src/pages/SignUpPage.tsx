@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { CONSTANT } from '../constant';
+import { CONSTANT } from '../lib';
 
 function SignUpPage({ setAuthUser }: { setAuthUser: (user: any) => void }) {
   const [userID, setUserID] = useState('');
