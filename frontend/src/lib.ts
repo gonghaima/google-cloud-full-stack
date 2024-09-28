@@ -14,6 +14,9 @@ const sortedMessages = (messages: Message[]) =>
     return dateB - dateA;
   });
 
+const takeTen = (messages: Message[]) =>
+  messages.length ? messages.slice(0, 10) : [];
+
 const formatDate = (postedDate: { _seconds: number; _nanoseconds: number }) => {
   const date = new Date(
     postedDate._seconds * 1000 + postedDate._nanoseconds / 1000000
@@ -21,4 +24,4 @@ const formatDate = (postedDate: { _seconds: number; _nanoseconds: number }) => {
   return date.toLocaleString(); // Formats the date and time based on locale
 };
 
-export { CONSTANT, formatDate, sortedMessages };
+export { CONSTANT, formatDate, sortedMessages, takeTen };

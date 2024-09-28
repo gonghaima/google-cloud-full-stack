@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CONSTANT, formatDate, sortedMessages } from '../lib';
+import { CONSTANT, formatDate, sortedMessages, takeTen } from '../lib';
 import { Message, User } from '../types';
 
 function HomePage({ authUser }: { authUser: User }) {
@@ -51,7 +51,7 @@ function HomePage({ authUser }: { authUser: User }) {
         );
         if (response.ok) {
           const data = await response.json();
-          setRecentMessages(sortedMessages(data)); // Assuming API returns recent messages
+          setRecentMessages(takeTen(sortedMessages(data))); // Assuming API returns recent messages
         }
       } catch (error) {
         console.error('Error fetching recent messages:', error);

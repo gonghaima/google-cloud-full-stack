@@ -153,8 +153,6 @@ router.put('/:id', async (req, res) => {
 router.put('/:id/password', async (req, res) => {
   const { id } = req.params;
   console.log('req.body: ', req.body);
-  //   const { oldPassword, newPassword } = req.body;
-  //   console.log("oldPassword, newPassword : ", oldPassword, newPassword );
   try {
     const updatedUser = await updateUserPassword(
       id,

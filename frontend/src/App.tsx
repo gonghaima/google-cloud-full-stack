@@ -7,11 +7,12 @@ import NotFound from './pages/NotFound';
 import AdminPage from './pages/AdminPage';
 import Header from './components/ui/Header';
 import './App.css';
+import { User } from './types';
 
 function App() {
   const loading = false;
 
-  const [authUser, setAuthUser] = useState(null);
+  const [authUser, setAuthUser] = useState<User | null>(null);
   // const [authUser, setAuthUser] = useState({
   //   id: 'synukjPXGvPxmwp6sNpr',
   //   user_name: 'Steven',
@@ -34,7 +35,7 @@ function App() {
           path="/"
           element={
             authUser ? (
-              <HomePage setAuthUser={setAuthUser} authUser={authUser} />
+              <HomePage authUser={authUser} />
             ) : (
               <Navigate to="/login" />
             )

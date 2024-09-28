@@ -57,7 +57,7 @@ function AdminPage({ authUser, setAuthUser }: AdminPageProps) {
         setAuthUser(null);
         navigate('/login'); // Redirect to login page on successful password change
       } else {
-        setPasswordError('The old password is incorrect.');
+        setPasswordError('response is not ok.');
       }
     } catch (error) {
       setPasswordError('The old password is incorrect.');
